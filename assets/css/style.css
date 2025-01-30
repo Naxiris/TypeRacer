@@ -1,0 +1,43 @@
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+}
+body {
+    font-family: 'Nunito', sans-serif;
+}
+.heading {
+    background-color: #ff8400;
+    color:white;
+    height: 20vh;
+    width: 100%;
+    padding: 2%;
+}
+.alegreya {
+    font-family: 'Alegreya', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
+}
+.results-glow {
+    margin-top: 30px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px #ff8400;
+}
+.card-body {
+    padding: 20px;
+}
+.card {
+    text-align: left;
+    padding-top: 18px;
+    padding-left: 12px;
+    font-size: large;
+    font-weight: 500;
+}
+#test-text {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+.btn {
+    background-color: white;
+    color: black;
+    border: solid 2px #ff8400;
+}
