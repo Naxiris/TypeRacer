@@ -74,6 +74,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const wpm = calculateWPM(typedText, sampleText, timeTaken);
         wpmElement.textContent = wpm;
         levelElement.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
+
+        // Clear the text area
+        typingArea.value = '';
     }
     function retryGame() {
         console.log('Game retried');
