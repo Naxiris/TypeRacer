@@ -52,6 +52,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         startBtn.disabled = true;
         stopBtn.disabled = false;
         isRunning = true;
+        typingArea.value = '';
+        typingArea.focus();
         timer = setInterval(() => {
             // Game logic to be executed at intervals
         }, 1000);
@@ -66,8 +68,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         startBtn.disabled = false;
         stopBtn.disabled = true;
         isRunning = false;
-
-   
 
         const typedText = typingArea.value.trim();
         const sampleText = testWordsElement.textContent.trim();
@@ -103,6 +103,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return Math.round(wpm);
     }
 
+    function updateTypingFeedback() {
+        const typedText = typingArea.value.trim();
+        const sampleText = testWordsElement.textContent.trim();
+        const typedWords = typedText.split(/\s+/);
+        const sampleWords = sampleText.split(/\s+/);
+
+        let feedbackHTML = '';
+
+        sampleWords.forEach((word, index) => {
+            if (typedWords[index] === undefined) {
+                feedbackHTML += `<span>${word}</span> `;
+            } else if (typedWords[index] === word) {
+                feedbackHTML += `<span style="color: green;">${word}</span> `;
+            } else {
+                feedbackHTML += `<span style="color: red;">${word}</span> `;
+            }
+        });
+
+        testWordsElement.innerHTML = feedbackHTML.trim();
+    }
+
     // Event listeners
     startBtn.addEventListener('click', () => {
         if (!isRunning) {
@@ -120,5 +141,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         retryGame();
     });
 
-    
+    typingArea.addEventListener('input', () => {
+        if (isRunning) {
+            updateTypingFeedback();
+        }
+    });
+
+    typingArea.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            if (!isRunning) {
+                startGame();
+            } else {
+                stopGame();
+            }
+        }
+    });
 });
