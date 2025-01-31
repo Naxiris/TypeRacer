@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const wpmElement = document.getElementById('wpm');
     const levelElement = document.getElementById('level');
     const typingArea = document.getElementById('typing-area');
+    const bestEasyElement = document.getElementById('best-easy');
+    const bestMediumElement = document.getElementById('best-medium');
+    const bestHardElement = document.getElementById('best-hard');
 
     let timer;
     let isRunning = false;
@@ -37,12 +40,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
             "The quick brown fox jumps over the lazy dog multiple times."
         ]
     };
-    // Difficulty levels
+
+    const bestResults = {
+        easy: null,
+        medium: null,
+        hard: null
+    };
+
     function getRandomText(difficulty) {
         const options = texts[difficulty];
         return options[Math.floor(Math.random() * options.length)];
     }
-    // Game logic
+
     function startGame() {
         console.log('Game started');
         const selectedDifficulty = difficultySelect.value;
@@ -77,19 +86,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // Clear the text area
         typingArea.value = '';
-    }
-    function retryGame() {
-        console.log('Game retried');
-        clearInterval(timer);
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-        isRunning = false;
-        typingArea.value = '';
-        // Reset game state
-        startGame();
+
+        // Update best results
+        updateBestResults(difficultySelect.value, wpm);
     }
 
-    // Results function
     function calculateWPM(typedText, sampleText, timeTaken) {
         const typedWords = typedText.split(/\s+/);
         const sampleWords = sampleText.split(/\s+/);
@@ -104,6 +105,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const minutes = timeTaken / 60;
         const wpm = correctWords / minutes;
         return Math.round(wpm);
+    }
+
+    function updateBestResults(difficulty, wpm) {
+        if (bestResults[difficulty] === null || wpm > bestResults[difficulty]) {
+            bestResults[difficulty] = wpm;
+            displayBestResults();
+        }
+    }
+
+    function displayBestResults() {
+        bestEasyElement.textContent = bestResults.easy !== null ? bestResults.easy : 'N/A';
+        bestMediumElement.textContent = bestResults.medium !== null ? bestResults.medium : 'N/A';
+        bestHardElement.textContent = bestResults.hard !== null ? bestResults.hard : 'N/A';
+    }
+
+    function retryGame() {
+        console.log('Game retried');
+        clearInterval(timer);
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        isRunning = false;
+        typingArea.value = '';
+        // Reset game state
+        startGame();
     }
 
     function updateTypingFeedback() {
@@ -127,7 +152,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         testWordsElement.innerHTML = feedbackHTML.trim();
     }
 
-    // Event listeners
     startBtn.addEventListener('click', () => {
         if (!isRunning) {
             startGame();
@@ -159,7 +183,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     });
-    
+
     difficultySelect.addEventListener('change', () => {
         levelElement.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
     });
