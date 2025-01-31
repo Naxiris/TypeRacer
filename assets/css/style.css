@@ -47,3 +47,8 @@ body {
     color: white;
     border-color: #ff8400;
 }
+.btn-active {
+    background-color: #ff8400;
+    color: white;
+    border-color: #ff8400;
+}
