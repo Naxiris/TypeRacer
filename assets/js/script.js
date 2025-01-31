@@ -159,4 +159,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         }
     });
+    
+    difficultySelect.addEventListener('change', () => {
+        levelElement.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
+    });
 });
